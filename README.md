@@ -7,13 +7,12 @@ How to install
 --------------
 
 * Python - 2.7.10
-* pyenv
 * virtualenv
 
 OSX:
 
-* make sure to have the latest brew and pyenv `brew update && brew upgrade pyenv`
-* `pyenv local` should be `2.7.10`
+* run `make create_environment`
+* run `workon cs109a-Predicting_loan_outcomes`
 
 Project Organization
 ------------
