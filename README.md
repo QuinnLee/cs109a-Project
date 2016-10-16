@@ -3,6 +3,18 @@ cs109a-project
 
 Predicting Loan Outcomes using Machine Learning
 
+How to install
+--------------
+
+* Python - 2.7.10
+* pyenv
+* virtualenv
+
+OSX:
+
+* make sure to have the latest brew and pyenv `brew update && brew upgrade pyenv`
+* `pyenv local` should be `2.7.10`
+
 Project Organization
 ------------
 
