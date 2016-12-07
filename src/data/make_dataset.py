@@ -1,64 +1,91 @@
 # -*- coding: utf-8 -*-
 import os
-
 import pandas as pd
 
 
-def make_clean_dataset(dataset):
-    '''
-    todo docstring
+def clean_data(dataset):
+    '''Retaining all columns that are mostly non-null
+
+    The rule is that every columns where the
+    majority of the obs are NA is dropped. Everything
+    else is kept.
+
+    Args:
+        dataset:    A pandas df of the raw csv
+
+    Returns: 
+        df:         A pandas df with only the
+                    main 'base' features
+    
     '''
 
-    cols_to_keep = ['id', 'member_id', 'loan_amnt', 'funded_amnt', \
-    'funded_amnt_inv', 'term', 'int_rate', 'installment', 'grade', \
-    'sub_grade', 'emp_title', 'emp_length', 'home_ownership', 'annual_inc', \
-    'verification_status', 'issue_d', 'loan_status', 'pymnt_plan', 'url', \
-    'purpose', 'title', 'zip_code', 'addr_state', 'dti', 'delinq_2yrs', \
-    'earliest_cr_line', 'inq_last_6mths', 'open_acc', 'pub_rec', 'revol_bal', \
-    'revol_util', 'total_acc', 'initial_list_status', 'out_prncp', 'out_prncp_inv', \
-    'total_pymnt', 'total_pymnt_inv', 'total_rec_prncp', 'total_rec_int', \
-    'total_rec_late_fee', 'recoveries', 'collection_recovery_fee', 'last_pymnt_d', \
-    'last_pymnt_amnt', 'next_pymnt_d', 'last_credit_pull_d', 'collections_12_mths_ex_med', \
-    'policy_code', 'application_type', 'acc_now_delinq', 'tot_coll_amt', 'tot_cur_bal']
+    print "Now cleaning data."
 
+    # Removing columns of mostly null values
+    cols_to_keep = []
+
+    for i in dataset.columns.values:
+        if dataset[i].isnull().any() == True:
+            ok = dataset[i].isnull().value_counts(sort = False) / len(dataset[i])
+            ok = ok.reset_index()
+            
+            # Drop only cols for whom more than the majority (>50%) are missing
+            if ok[ok['index'] == False][i].item() > 0.5:
+                cols_to_keep.append(i)
+        else:
+            cols_to_keep.append(i)
+
+    # Removing outliers
     df = dataset[(dataset['annual_inc'] <= 400000) & \
         (dataset['delinq_2yrs'].isnull() == False) & \
         (dataset['revol_util'] <= 130) & \
         (dataset['collections_12_mths_ex_med'].isnull() == False)].copy()
 
+    # Ensuring everything is a float
     continous_cols =  ['loan_amnt','funded_amnt','funded_amnt_inv',\
-    'installment','dti','revol_bal']
+        'installment','dti','revol_bal']
 
     for feature_name in continous_cols:
         df[feature_name] = df[feature_name].astype(float)
+    
+    # Converting strings to datetime objects
+    for i in ['last_pymnt_d', 'next_pymnt_d', 'last_credit_pull_d']:
+        df[i] = pd.to_datetime(df[i])
+
 
     return df[cols_to_keep]
 
 
 def impute_missing(dataset):
-    '''
+    '''Imputing missing values
+
+    Floats are filled with zero.
+    String NaNs 
+
     todo docstring
     '''
 
-    dataset['tot_cur_bal'].fillna(value = 0, inplace = True)
-    dataset['tot_coll_amt'].fillna(value = dataset['tot_coll_amt'].mean(), inplace = True)
+    dataset[['tot_cur_bal', \
+            'tot_coll_amt', \
+            'total_rev_hi_lim']].fillna(value = 0, inplace = True)
+
 
     return dataset
 
 
-def spelling_mistakes(dataset):
-    '''
-    todo docstring
-    '''
+# def spelling_mistakes(dataset):
+#     '''
+#     todo docstring
+#     '''
 
-    import enchant as en
+#     import enchant as en
 
-    spell_check = en.Dict('en_US')
+#     spell_check = en.Dict('en_US')
 
-    for s in ['emp_title', 'title']:
-        df[]
+#     for s in ['emp_title', 'title']:
+#         df[]
 
-    dataset['num_spell_errors'] = 0
+#     dataset['num_spell_errors'] = 0
 
 
 
