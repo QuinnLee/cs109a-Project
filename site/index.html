@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="img/favicon-area-chart.ico" sizes="32x32">
 
-    <title>CS109a - Predicting interest Rates</title>
+    <title>CS109a: Pricing Risk</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -44,7 +44,7 @@
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
             <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
           </button>
-          <a class="navbar-brand page-scroll" href="#page-top">CS109 - Project</a>
+          <a class="navbar-brand page-scroll" href="#page-top">CS109A: Pricing Risk</a>
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -71,9 +71,13 @@
     <header>
       <div class="header-content">
         <div class="header-content-inner">
-          <h1 id="homeHeading">CS109a - Hi angela</h1>
+          <h1 id="homeHeading">How do we price risk?</h1>
+          <h3>Predicting interest rates in online lending</h3>
           <hr>
-          <p>Insert title here</p>
+          <h4>by <a href="https://twitter.com/angelaambroz">Angela Ambroz</a> and <a href="https://twitter.com/potato_cannon">Quinn Lee</a></h4>
+          <h5>CS109A - Intro to Data Science - Harvard Extension School</h5>
+          <h5>Fall 2016</h5>
+          <br>
           <a href="#intro" class="btn btn-primary btn-xl page-scroll">Introduction</a>
         </div>
       </div>
@@ -85,7 +89,15 @@
           <div class="col-lg-8 col-lg-offset-2 text-center">
             <h2 class="section-heading">Introduction</h2>
             <hr class="light">
-            <p class="text-faded">This is where we put the intro text!</p>
+            <p class="text-faded">A loan market is dominated by two core, structural challenges: <em>information asymmetries</em> and <em>adverse selection</em>.</p> 
+
+            <p class="text-faded">Asymmetrical information relates to the fact that borrowers know more about their own credit worthiness and riskiness than lenders do. Adverse selection means that those seeking loans may be riskier, on average, than those not seeking loans.</p> 
+
+            <p class="text-faded"><b>To have an adequately functioning lending market, loans need to ‘price in’ those risks</b>; one way to price them in is to reduce information asymmetries by developing prediction models that can accurately identify risk profiles of borrowers. Often, this takes the shape of credit reports and credit ratings: riskier borrowers have higher credit ratings, for example. This also translates in the interest rates which can be  offered in different markets or, more specifically, to individual borrowers.</p>
+
+            <p class="text-faded">While peer-to-peer (P2P) lending markets - like many online marketplaces - improve efficiencies by reducing transaction costs (lenders can browse, potentially, hundreds of possible borrowers from the comfort of their home, etc.), they rely on offline models for risk prediction and pricing. These offline models may not be appropriate (e.g. if market behaviors change in online markets versus offline), or they may not be adequately reaping the benefits of online data (e.g. matching borrowers to social media and other public online behavior to enrich the risk profile).</p>
+
+
             <a href="#data-cleaning" class="page-scroll btn btn-default btn-xl sr-button">The data</a>
           </div>
         </div>
@@ -105,8 +117,61 @@
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 text-center">
             <i class="fa fa-4x fa-diamond text-primary sr-icons"></i>
-            <h3>Shit about teh data</h3>
-            <p class="text-muted">this is the data section</p>
+            <h3>Source</h3>
+            <p class="text-muted">Our project examines the predictors of interest rates in an online peer-to-peer lending marketplace.</p>
+
+            <p class="text-muted">Using data from the <a href="https://www.lendingclub.com/">Lending Club</a>, we examine 887,379 unique loans issued between 2007 and 2015 (<a href="https://www.kaggle.com/wendykan/lending-club-loan-data">source</a>).</p>
+
+            <h3>Basic summary stats</h3>
+            <p class="text-muted">The average loan amount is $14,755, with most loans (67%) still being active, a sizable minority (23%) already paid off, and the remaining in various states of tardiness, default, and charge-off. (Charge-off occurs when a creditor declares that a debtor is no longer able to pay the loan; usually, this can happen after loan payments are six months behind schedule.)</p>
+
+            <p class="text-muted">All borrowers are assigned a FICO score - something which should signal a borrower’s riskiness to potential creditors. Scores range from A (least risky) to G (most risky). Less than 10% of borrowers have scores below D - the majority are in the top three (least risky) ranges: A (17%), B (29%), and C (28%). Borrowers are then ‘priced’ according to their riskiness, and this is reflected in the interest rates. Indeed, while the average interest rate across all loans was 13%, this varies substantially by grade.</p>
+
+            <table class='table table-striped'>
+            <tr>
+              <th>Grade</th>
+              <th>Interest rate (%)</th>
+            </tr>
+              <tr>
+                <td>A</td>
+                <td>7.24</td>
+              </tr>
+              <tr>
+                <td>B</td>
+                <td>10.83</td>
+              </tr>
+              <tr>
+                <td>C</td>
+                <td>13.98</td>
+              </tr>
+              <tr>
+                <td>D</td>
+                <td>17.18</td>
+              </tr>
+              <tr>
+                <td>E</td>
+                <td>19.90</td>
+              </tr>
+              <tr>
+                <td>F</td>
+                <td>23.58</td>
+              </tr>
+              <tr>
+                <td>G</td>
+                <td>25.63</td>
+              </tr>
+            </table>
+
+            <p class="text-muted">As expected, the interest rate is positively correlated with loan grade: as loans get riskier, borrowers must pay more to lenders to take on that risk.</p>
+
+            <h3>A strategy forward</h3>
+
+            <p class="text-muted">Interest rates are directly correlated with grade, but that does not necessarily provide us with much useful information: both the interest rate and grade of a borrower are attempting to capture the same thing (riskiness). So a better question to ask is what could predict a borrower’s riskiness? These could include individual-level characteristics which are measurable but may not be available in this dataset (education, employment status, social network), measurable and available in this dataset (debt-to-income ratio, purpose of loan), and difficult to measure altogether (risk tolerance, spending behavior).</p>
+
+            <p class="text-muted">The majority of loans (59%) are taken out in order to consolidate debt. This becomes 82%  if we include credit card payments. In other words, the majority of borrowers on Lending Club are borrowing in order to pay off other debt. This seems to imply that the Lending Club data is a selected sample, not necessarily representative of the entire population of borrowers. Indeed, Lending Club is often not the first ‘port of call’ for borrowing; rather, we could speculate whether most borrowers go to Lending Club when they are further along their debt journey. </p>
+
+            <p class="text-muted">The debt-to-income (DTI) ratio, considering all Lending Club borrowers, is 18% - meaning, the average LC borrower must spend around 18% of their monthly income on their other loans (excluding mortgages and the requested LC loan). In general, we can expect that borrowers with higher DTI ratio will have more difficulty in paying off their loan - a predictor for default, and also, perhaps, a predictor for higher interest rates. The DTI distributions also shift according to grade: with less risky borrowers having lower DTI ratios, on average, than more risky borrowers. </p>
+
           </div>
         </div>
       </div>
