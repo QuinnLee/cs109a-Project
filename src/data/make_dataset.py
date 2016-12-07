@@ -123,7 +123,6 @@ def spelling_mistakes(dataset):
     return dataset
 
 
-
 if __name__ == '__main__':
     print "Just do this in the jupyter notebook. Don't bother here."
 
