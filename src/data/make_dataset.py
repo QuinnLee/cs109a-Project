@@ -1,30 +1,130 @@
 # -*- coding: utf-8 -*-
 import os
-import click
-import logging
-from dotenv import find_dotenv, load_dotenv
+import pandas as pd
+import enchant as en
+
+def clean_data(dataset):
+    '''Retaining all columns that are mostly non-null
+
+    The rule is that every columns where the
+    majority of the obs are NA is dropped. Everything
+    else is kept.
+
+    Args:
+        dataset:    A pandas df of the raw csv
+
+    Returns: 
+        df:         A pandas df with only the
+                    main 'base' features
+    
+    '''
+
+    print "Now cleaning data."
+
+    # Removing columns of mostly null values
+    cols_to_keep = []
+
+    for i in dataset.columns.values:
+        if dataset[i].isnull().any() == True:
+            ok = dataset[i].isnull().value_counts(sort = False) / len(dataset[i])
+            ok = ok.reset_index()
+            
+            # Drop only cols for whom more than the majority (>50%) are missing
+            if ok[ok['index'] == False][i].item() > 0.5:
+                cols_to_keep.append(i)
+        else:
+            cols_to_keep.append(i)
+
+    # Removing outliers
+    df = dataset[(dataset['annual_inc'] <= 400000) & \
+        (dataset['delinq_2yrs'].isnull() == False) & \
+        (dataset['revol_util'] <= 130) & \
+        (dataset['collections_12_mths_ex_med'].isnull() == False)].copy()
+
+    # Ensuring everything is a float
+    continous_cols =  ['loan_amnt','funded_amnt','funded_amnt_inv',\
+        'installment','dti','revol_bal']
+
+    for feature_name in continous_cols:
+        df[feature_name] = df[feature_name].astype(float)
+    
+    # Converting strings to datetime objects
+    for i in ['last_pymnt_d', 'next_pymnt_d', 'last_credit_pull_d']:
+        df[i] = pd.to_datetime(df[i])
 
 
-@click.command()
-@click.argument('input_filepath', type=click.Path(exists=True))
-@click.argument('output_filepath', type=click.Path())
-def main(input_filepath, output_filepath):
-    """ Runs data processing scripts to turn raw data from (../raw) into
-        cleaned data ready to be analyzed (saved in ../processed).
-    """
-    logger = logging.getLogger(__name__)
-    logger.info('making final data set from raw data')
+    return df[cols_to_keep]
+
+
+def impute_missing(dataset):
+    '''Imputing missing values
+
+    Floats are filled with zero.
+
+    Args:
+        dataset:    A pandas df.
+
+    Returns self.
+    '''
+
+    dataset[['tot_cur_bal', \
+            'tot_coll_amt', \
+            'total_rev_hi_lim']].fillna(value = 0, inplace = True)
+
+
+    return dataset
+
+
+def misspelling_intensity(data_cell):
+    '''Gives an 'intensity' of spelling errors
+
+    For every data cell with a string in it (e.g. employment title),
+    splits the string into words, spell checks those words, and returns
+    the % of words that were incorrectly spelled.
+
+    This func will be applied to a pandas df using the .apply()
+    method.
+
+    Args:
+        data_cell:      A pandas df cell. 
+
+    Returns:
+        percent_wrong:  The % of words that the person spelled
+                        incorrectly.
+
+    '''
+
+    # scope problem: defines this every time it's run
+    spell_check = en.Dict('en_US')
+
+    string_list = str(data_cell).split()
+    errors_list = [spell_check.check(x) for x in string_list]
+    percent_wrong = float(errors_list.count(False)) / len(errors_list)
+
+    return percent_wrong
+
+
+def spelling_mistakes(dataset):
+    '''Calculates the percentage of misspellings for each string column
+
+    Args:
+        dataset:    A pandas df, expects it to be cleaned.
+
+    Returns:
+        self, with two new columns
+    
+    '''
+
+    print "Now calculating spelling mistakes.\nThis may take a while."
+
+    for s in ['emp_title', 'title']:
+        dataset['{}_percent_misspelled'.format(s)] = dataset[s].apply(misspelling_intensity)
+
+    return dataset
 
 
 if __name__ == '__main__':
-    log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-    logging.basicConfig(level=logging.INFO, format=log_fmt)
+    print "Just do this in the jupyter notebook. Don't bother here."
 
-    # not used in this stub but often useful for finding various files
-    project_dir = os.path.join(os.path.dirname(__file__), os.pardir, os.pardir)
 
-    # find .env automagically by walking up directories until it's found, then
-    # load up the .env entries as environment variables
-    load_dotenv(find_dotenv())
 
-    main()
