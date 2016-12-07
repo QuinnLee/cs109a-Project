@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 import pandas as pd
-
+import enchant as en
 
 def clean_data(dataset):
     '''Retaining all columns that are mostly non-null
@@ -60,9 +60,11 @@ def impute_missing(dataset):
     '''Imputing missing values
 
     Floats are filled with zero.
-    String NaNs 
 
-    todo docstring
+    Args:
+        dataset:    A pandas df.
+
+    Returns self.
     '''
 
     dataset[['tot_cur_bal', \
@@ -73,21 +75,57 @@ def impute_missing(dataset):
     return dataset
 
 
-# def spelling_mistakes(dataset):
-#     '''
-#     todo docstring
-#     '''
+def misspelling_intensity(data_cell):
+    '''Gives an 'intensity' of spelling errors
 
-#     import enchant as en
+    For every data cell with a string in it (e.g. employment title),
+    splits the string into words, spell checks those words, and returns
+    the % of words that were incorrectly spelled.
 
-#     spell_check = en.Dict('en_US')
+    This func will be applied to a pandas df using the .apply()
+    method.
 
-#     for s in ['emp_title', 'title']:
-#         df[]
+    Args:
+        data_cell:      A pandas df cell. 
 
-#     dataset['num_spell_errors'] = 0
+    Returns:
+        percent_wrong:  The % of words that the person spelled
+                        incorrectly.
+
+    '''
+
+    # scope problem: defines this every time it's run
+    spell_check = en.Dict('en_US')
+
+    string_list = str(data_cell).split()
+    errors_list = [spell_check.check(x) for x in string_list]
+    percent_wrong = float(errors_list.count(False)) / len(errors_list)
+
+    return percent_wrong
+
+
+def spelling_mistakes(dataset):
+    '''Calculates the percentage of misspellings for each string column
+
+    Args:
+        dataset:    A pandas df, expects it to be cleaned.
+
+    Returns:
+        self, with two new columns
+    
+    '''
+
+    print "Now calculating spelling mistakes.\nThis may take a while."
+
+    for s in ['emp_title', 'title']:
+        dataset['{}_percent_misspelled'.format(s)] = dataset[s].apply(misspelling_intensity)
+
+    return dataset
 
 
 
 if __name__ == '__main__':
     print "Just do this in the jupyter notebook. Don't bother here."
+
+
+
