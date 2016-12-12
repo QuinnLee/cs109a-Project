@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -56,16 +54,14 @@
             <a class="page-scroll" href="#data-cleaning">Data</a>
             </li>
             <li>
-            <a class="page-scroll" href="#analysis">Analysis</a>
+            <a class="page-scroll" href="#model">Model</a>
             </li>
             <li>
             <a class="page-scroll" href="#conclusion">Conclusion</a>
             </li>
           </ul>
         </div>
-        <!-- /.navbar-collapse -->
       </div>
-      <!-- /.container-fluid -->
     </nav>
 
     <header>
@@ -75,6 +71,9 @@
           <h3>Predicting interest rates in online lending</h3>
           <hr>
           <h4>by <a href="https://twitter.com/angelaambroz">Angela Ambroz</a> and <a href="https://twitter.com/potato_cannon">Quinn Lee</a></h4>
+          <a href='https://github.com/QuinnLee/cs109a-Project' alt='source code'>
+            <i class="fa fa-2x fa-github sr-icons"></i>
+          </a>
           <h5>CS109A - Intro to Data Science - Harvard Extension School</h5>
           <h5>Fall 2016</h5>
           <br>
@@ -86,19 +85,46 @@
     <section class="bg-primary" id="intro">
       <div class="container">
         <div class="row">
-          <div class="col-lg-8 col-lg-offset-2 text-center">
-            <h2 class="section-heading">Introduction</h2>
+          <div class="col-lg-8 col-lg-offset-2">
+            <div class='text-center'>
+              <h2 class="section-heading">Introduction</h2>
+            </div>
+            <div class='text-center'>
+              <i class="fa fa-4x fa-search sr-icons"></i>
+            </div>
             <hr class="light">
-            <p class="text-faded">A loan market is dominated by two core, structural challenges: <em>information asymmetries</em> and <em>adverse selection</em>.</p> 
+            <p class="text-faded">
+              A loan market is dominated by two core, structural challenges:
+              <em>information asymmetries</em> and <em>adverse selection</em>.
+            </p>
 
-            <p class="text-faded">Asymmetrical information relates to the fact that borrowers know more about their own credit worthiness and riskiness than lenders do. Adverse selection means that those seeking loans may be riskier, on average, than those not seeking loans.</p> 
-
-            <p class="text-faded"><b>To have an adequately functioning lending market, loans need to ‘price in’ those risks</b>; one way to price them in is to reduce information asymmetries by developing prediction models that can accurately identify risk profiles of borrowers. Often, this takes the shape of credit reports and credit ratings: riskier borrowers have higher credit ratings, for example. This also translates in the interest rates which can be  offered in different markets or, more specifically, to individual borrowers.</p>
-
-            <p class="text-faded">While peer-to-peer (P2P) lending markets - like many online marketplaces - improve efficiencies by reducing transaction costs (lenders can browse, potentially, hundreds of possible borrowers from the comfort of their home, etc.), they rely on offline models for risk prediction and pricing. These offline models may not be appropriate (e.g. if market behaviors change in online markets versus offline), or they may not be adequately reaping the benefits of online data (e.g. matching borrowers to social media and other public online behavior to enrich the risk profile).</p>
-
-
-            <a href="#data-cleaning" class="page-scroll btn btn-default btn-xl sr-button">The data</a>
+            <p class="text-faded">
+              Asymmetrical information relates to the fact that borrowers know more
+              about their own credit worthiness and riskiness than lenders do.
+              Adverse selection means that those seeking loans may be riskier,
+              on average, than those not seeking loans.
+            </p>
+            <p class="text-faded">
+              <strong class='express'>To have an adequately functioning lending market, loans need to ‘price in’ those risks</strong>;
+              one way to price them in is to reduce information asymmetries by developing prediction models that
+              can accurately identify risk profiles of borrowers. Often, this takes the shape of credit
+              reports and credit ratings: riskier borrowers have higher credit ratings, for example.
+              This also translates in the interest rates which can be  offered in different markets or,
+              more specifically, to individual borrowers.
+            </p>
+            <p class="text-faded">
+              While peer-to-peer (P2P) lending markets - like many online marketplaces -
+              improve efficiencies by reducing transaction costs (lenders can browse,
+              potentially, hundreds of possible borrowers from the comfort of their home, etc.),
+              they rely on offline models for risk prediction and pricing. These offline models
+              may not be appropriate (e.g. if market behaviors change in online markets versus
+              offline), or they may not be adequately reaping the benefits of online data
+              (e.g. matching borrowers to social media and other public online behavior
+              to enrich the risk profile).
+            </p>
+            <div class='text-center'>
+              <a href="#data-cleaning" class="page-scroll btn btn-default btn-xl sr-button">The data</a>
+            </div>
           </div>
         </div>
       </div>
@@ -106,8 +132,8 @@
 
     <section id="data-cleaning">
       <div class="container">
-        <div class="row">
-          <div class="col-lg-12 text-center">
+        <div class="row text-center">
+          <div class="col-lg-12">
             <h2 class="section-heading">The Data</h2>
             <hr class="primary">
           </div>
@@ -115,136 +141,264 @@
       </div>
       <div class="container">
         <div class="row">
-          <div class="col-lg-8 col-lg-offset-2 text-center">
-            <i class="fa fa-4x fa-diamond text-primary sr-icons"></i>
+          <div class="col-lg-8 col-lg-offset-2">
+            <div class='text-center'>
+              <i class="fa fa-4x fa-diamond text-primary sr-icons"></i>
+            </div>
             <h3>Source</h3>
-            <p class="text-muted">Our project examines the predictors of interest rates in an online peer-to-peer lending marketplace.</p>
-
-            <p class="text-muted">Using data from the <a href="https://www.lendingclub.com/">Lending Club</a>, we examine 887,379 unique loans issued between 2007 and 2015 (<a href="https://www.kaggle.com/wendykan/lending-club-loan-data">source</a>).</p>
-
+            <p class="text-muted">
+              Our project examines the predictors of interest rates in an online peer-to-peer lending marketplace.
+            </p>
+            <p class="text-muted">
+              Using data from the <a href="https://www.lendingclub.com/">Lending Club</a>,
+              we examine 887,379 unique loans issued between 2007 and 2015
+              (<a href="https://www.kaggle.com/wendykan/lending-club-loan-data">source</a>).
+            </p>
             <h3>Basic summary stats</h3>
-            <p class="text-muted">The average loan amount is $14,755, with most loans (67%) still being active, a sizable minority (23%) already paid off, and the remaining in various states of tardiness, default, and charge-off. (Charge-off occurs when a creditor declares that a debtor is no longer able to pay the loan; usually, this can happen after loan payments are six months behind schedule.)</p>
-
-            <p class="text-muted">All borrowers are assigned a FICO score - something which should signal a borrower’s riskiness to potential creditors. Scores range from A (least risky) to G (most risky). Less than 10% of borrowers have scores below D - the majority are in the top three (least risky) ranges: A (17%), B (29%), and C (28%). Borrowers are then ‘priced’ according to their riskiness, and this is reflected in the interest rates. Indeed, while the average interest rate across all loans was 13%, this varies substantially by grade.</p>
-
-            <table class='table table-striped'>
-            <tr>
-              <th>Grade</th>
-              <th>Interest rate (%)</th>
-            </tr>
-              <tr>
-                <td>A</td>
-                <td>7.24</td>
-              </tr>
-              <tr>
-                <td>B</td>
-                <td>10.83</td>
-              </tr>
-              <tr>
-                <td>C</td>
-                <td>13.98</td>
-              </tr>
-              <tr>
-                <td>D</td>
-                <td>17.18</td>
-              </tr>
-              <tr>
-                <td>E</td>
-                <td>19.90</td>
-              </tr>
-              <tr>
-                <td>F</td>
-                <td>23.58</td>
-              </tr>
-              <tr>
-                <td>G</td>
-                <td>25.63</td>
-              </tr>
-            </table>
-
-            <p class="text-muted">As expected, the interest rate is positively correlated with loan grade: as loans get riskier, borrowers must pay more to lenders to take on that risk.</p>
-
-            <h3>A strategy forward</h3>
-
-            <p class="text-muted">Interest rates are directly correlated with grade, but that does not necessarily provide us with much useful information: both the interest rate and grade of a borrower are attempting to capture the same thing (riskiness). So a better question to ask is what could predict a borrower’s riskiness? These could include individual-level characteristics which are measurable but may not be available in this dataset (education, employment status, social network), measurable and available in this dataset (debt-to-income ratio, purpose of loan), and difficult to measure altogether (risk tolerance, spending behavior).</p>
-
-            <p class="text-muted">The majority of loans (59%) are taken out in order to consolidate debt. This becomes 82%  if we include credit card payments. In other words, the majority of borrowers on Lending Club are borrowing in order to pay off other debt. This seems to imply that the Lending Club data is a selected sample, not necessarily representative of the entire population of borrowers. Indeed, Lending Club is often not the first ‘port of call’ for borrowing; rather, we could speculate whether most borrowers go to Lending Club when they are further along their debt journey. </p>
-
-            <p class="text-muted">The debt-to-income (DTI) ratio, considering all Lending Club borrowers, is 18% - meaning, the average LC borrower must spend around 18% of their monthly income on their other loans (excluding mortgages and the requested LC loan). In general, we can expect that borrowers with higher DTI ratio will have more difficulty in paying off their loan - a predictor for default, and also, perhaps, a predictor for higher interest rates. The DTI distributions also shift according to grade: with less risky borrowers having lower DTI ratios, on average, than more risky borrowers. </p>
-
+            <p class="text-muted">
+              The average loan amount is $14,755, with most loans (67%) still being active,
+              a sizable minority (23%) already paid off, and the remaining in various states
+              of tardiness, default, and charge-off. (Charge-off occurs when a creditor declares
+              that a debtor is no longer able to pay the loan; usually, this can happen after
+              loan payments are six months behind schedule.)
+            </p>
+            <p class="text-muted">
+              All borrowers are assigned a FICO score - something which should signal a
+              borrower’s riskiness to potential creditors. Scores range from A (least risky)
+              to G (most risky). Less than 10% of borrowers have scores below D -
+              the majority are in the top three (least risky) ranges: A (17%), B (29%), and C (28%).
+              Borrowers are then ‘priced’ according to their riskiness, and this is reflected in the
+              interest rates. Indeed, while the average interest rate across all loans was 13%,
+              this varies substantially by grade.
+            </p>
+            <div class='text-center'>
+              <table class='table table-striped'>
+                <thead>
+                  <tr>
+                    <td>
+                      <strong>Grade</strong>
+                    </td>
+                    <td>
+                      <strong>Interest rate (%)</strong>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>A</td>
+                    <td>7.24</td>
+                  </tr>
+                  <tr>
+                    <td>B</td>
+                    <td>10.83</td>
+                  </tr>
+                  <tr>
+                    <td>C</td>
+                    <td>13.98</td>
+                  </tr>
+                  <tr>
+                    <td>D</td>
+                    <td>17.18</td>
+                  </tr>
+                  <tr>
+                    <td>E</td>
+                    <td>19.90</td>
+                  </tr>
+                  <tr>
+                    <td>F</td>
+                    <td>23.58</td>
+                  </tr>
+                  <tr>
+                    <td>G</td>
+                    <td>25.63</td>
+                  </tr>
+                <tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-    </section>
-
-    <section class="no-padding" id="analysis">
-      <div class="container-fluid">
-        <div class="row no-gutter popup-gallery">
-          <div class="col-lg-4 col-sm-6">
-            <a href="img/portfolio/fullsize/4.jpg" class="portfolio-box">
-              <img src="img/portfolio/thumbnails/4.jpg" class="img-responsive" alt="">
-              <div class="portfolio-box-caption">
-                <div class="portfolio-box-caption-content">
-                  <div class="project-category text-faded">
-                   VIS 1
-                  </div>
-                  <div class="project-name">
-                    pew pew less QQ
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="col-lg-4 col-sm-6">
-            <a href="img/portfolio/fullsize/5.jpg" class="portfolio-box">
-              <img src="img/portfolio/thumbnails/5.jpg" class="img-responsive" alt="">
-              <div class="portfolio-box-caption">
-                <div class="portfolio-box-caption-content">
-                  <div class="project-category text-faded">
-                    VIS 2
-                  </div>
-                  <div class="project-name">
-                    roflcopter goes wosh wosh wosh
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="col-lg-4 col-sm-6">
-            <a href="img/portfolio/fullsize/6.jpg" class="portfolio-box">
-              <img src="img/portfolio/thumbnails/6.jpg" class="img-responsive" alt="">
-              <div class="portfolio-box-caption">
-                <div class="portfolio-box-caption-content">
-                  <div class="project-category text-faded">
-                    vis3
-                  </div>
-                  <div class="project-name">
-                    GET IN TEH CHOPA
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <aside class="bg-dark">
-      <div class="container text-center">
-        <div class="call-to-action">
-          <h2> SOME THING CALL TO Action</h2>
-          <a href="#foo" class="btn btn-default btn-xl sr-button">FancyPants link</a>
-        </div>
-      </div>
-    </aside>
-
-    <section id="conclusion">
       <div class="container">
         <div class="row">
-          <div class="col-lg-8 col-lg-offset-2 text-center">
-            <h2 class="section-heading">Results</h2>
+          <div class="col-lg-8 col-lg-offset-2">
+            <div>
+              <a href="https://plot.ly/~QuinnLee/6/" target="_blank" title="Interest Rates by States in %" style="display: block; text-align: center;">
+                <img src="https://plot.ly/~QuinnLee/6.png" alt="Interest Rates by States in %" style="max-width: 100%;width: 600px;"  width="600" onerror="this.onerror=null;this.src='https://plot.ly/404.png';" />
+              </a>
+              <script data-plotly="QuinnLee:6"  src="https://plot.ly/embed.js" async></script>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid">
+        <div class="row no-gutter popup-gallery">
+          <div class="col-lg-4 col-sm-6 col-lg-offset-2">
+            <a href="img/portfolio/fullsize/loan_amount_histogram.png" class="portfolio-box">
+              <img src="img/portfolio/fullsize/loan_amount_histogram.png" class="img-responsive" alt="">
+              <div class="portfolio-box-caption">
+                <div class="portfolio-box-caption-content">
+                  <div class="project-category text-faded">
+                    Loan Amount Histogram
+                  </div>
+                  <div class="project-name">
+                    Click to Enlarge
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-lg-4 col-sm-6">
+            <a href="img/portfolio/fullsize/int_rate_histogram.png" class="portfolio-box">
+              <img src="img/portfolio/fullsize/int_rate_histogram.png" class="img-responsive" alt="">
+              <div class="portfolio-box-caption">
+                <div class="portfolio-box-caption-content">
+                  <div class="project-category text-faded">
+                    Interest Rate Histogram
+                  </div>
+                  <div class="project-name">
+                    Click to Enlarge
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid">
+        <div class="row no-gutter popup-gallery">
+          <div class="col-lg-4 col-sm-6 col-lg-offset-4">
+            <a href="img/portfolio/fullsize/loan_group_by_term_boxplot.png" class="portfolio-box">
+              <img src="img/portfolio/fullsize/loan_group_by_term_boxplot.png" class="img-responsive" alt="">
+              <div class="portfolio-box-caption">
+                <div class="portfolio-box-caption-content">
+                  <div class="project-category text-faded">
+                    Loan Interest Rates by Grade
+                  </div>
+                  <div class="project-name">
+                    Click to Enlarge
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2">
+            <p class="text-muted">
+              As expected, the interest rate is positively correlated with loan grade:
+              as loans get riskier, borrowers must pay more to lenders to take on that risk.
+            </p>
+            <h3>A strategy forward</h3>
+            <p class="text-muted">
+              Interest rates are directly correlated with grade, but that does not
+              necessarily provide us with much useful information: both the interest
+              rate and grade of a borrower are attempting to capture the same thing
+              (riskiness). So a better question to ask is what could predict a borrower’s
+              riskiness? These could include individual-level characteristics which are
+              measurable but may not be available in this dataset (education, employment
+              status, social network), measurable and available in this dataset (debt-to-
+              income ratio, purpose of loan), and difficult to measure altogether
+              (risk tolerance, spending behavior).
+            </p>
+
+            <p class="text-muted">
+              The majority of loans (59%) are taken out in order to consolidate debt.
+              This becomes 82%  if we include credit card payments. In other words,
+              the majority of borrowers on Lending Club are borrowing in order to
+              pay off other debt. This seems to imply that the Lending Club data is
+              a selected sample, not necessarily representative of the entire population
+              of borrowers. Indeed, Lending Club is often not the first ‘port of call’
+              for borrowing; rather, we could speculate whether most borrowers go to
+              Lending Club when they are further along their debt journey.
+            </p>
+            <p class="text-muted">
+              The debt-to-income (DTI) ratio, considering all Lending Club borrowers,
+              is 18% - meaning, the average LC borrower must spend around 18% of their
+              monthly income on their other loans (excluding mortgages and the requested LC loan).
+              In general, we can expect that borrowers with higher DTI ratio will
+              have more difficulty in paying off their loan - a predictor for default, and also,
+              perhaps, a predictor for higher interest rates. The DTI distributions also shift
+              according to grade: with less risky borrowers having lower DTI ratios, on average,
+              than more risky borrowers.
+            </p>
+            <h3>IMG Placeholder 1</h3>
+            <h3>IMG Placeholder 2</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="model">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-lg-12">
+            <h2 class="section-heading">The Model</h2>
             <hr class="primary">
-            <p>Conclustion</p>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2">
+            <div class='text-center'>
+              <i class="fa fa-4x fa-line-chart sr-icons"></i>
+            </div>
+            <h3>Training, Tuning and Testing</h3>
+            <p class="text-muted">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel velit dolor.
+              Morbi et efficitur leo. Morbi molestie arcu tellus, posuere euismod ipsum
+              tincidunt non. Donec tristique sed massa condimentum accumsan. Donec
+            </p>
+            <p class="text-muted">
+              Duis lobortis, elit eu pulvinar rutrum, felis
+              neque tristique metus, non pretium ipsum augue sit amet sem. Fusce sit
+              amet lectus augue. Mauris feugiat condimentum odio, at mollis nisl porta eu.
+              Pellentesque venenatis purus id lorem elementum, scelerisque egestas erat
+              molestie. Fusce sodales, tortor ut hendrerit posuere, lacus
+              erat imperdiet ligula, et tristique mi urna sit amet arcu. In hac
+              habitasse platea dictumst. Cras ultrices enim in fringilla dictum.
+            </p>
+            <p class="text-muted">
+              Duis lobortis, elit eu pulvinar rutrum, felis
+              neque tristique metus, non pretium ipsum augue sit amet sem. Fusce sit
+              amet lectus augue. Mauris feugiat condimentum odio, at mollis nisl porta eu.
+              Pellentesque venenatis purus id lorem elementum, scelerisque egestas erat
+              molestie. Fusce sodales, tortor ut hendrerit posuere, lacus
+              erat imperdiet ligula, et tristique mi urna sit amet arcu. In hac
+              habitasse platea dictumst. Cras ultrices enim in fringilla dictum.
+            </p>
+            <h3>IMG Placeholder 3</h3>
+            <h3>IMG Placeholder 4</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="conclusion">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-lg-12">
+            <h2 class="section-heading">Conclusion</h2>
+            <i class="fa fa-4x fa-check sr-icons"></i>
+            <hr class="primary">
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2">
+            <p class="text-muted">
+              Duis lobortis, elit eu pulvinar rutrum, felis
+              neque tristique metus, non pretium ipsum augue sit amet sem. Fusce sit
+              amet lectus augue. Mauris feugiat condimentum odio, at mollis nisl porta eu.
+              Pellentesque venenatis purus id lorem elementum, scelerisque egestas erat
+              molestie. Fusce sodales, tortor ut hendrerit posuere, lacus
+              erat imperdiet ligula, et tristique mi urna sit amet arcu. In hac
+              habitasse platea dictumst. Cras ultrices enim in fringilla dictum.
+            </p>
+            <h3>IMG Placeholder 6</h3>
+            <h3>IMG Placeholder 7</h3>
           </div>
         </div>
       </div>

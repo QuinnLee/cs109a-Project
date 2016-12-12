@@ -165,7 +165,7 @@ header {
     min-height: auto;
     .background-cover;
     background-position: center;
-    background-image: url('../img/header.jpg');
+    background-image: url('../img/credit-cards.jpg');
     text-align: center;
     color: white;
     .header-content {
@@ -358,4 +358,23 @@ img::-moz-selection {
 
 body {
     webkit-tap-highlight-color: @gray-darker;
+}
+
+.express {
+  font-weight: 900;
+  text-decoration: none;
+  position: relative;
+}
+.express:after {
+  content: 'Processing';
+  color: transparent;
+
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+
+  border-width: 0 0 2px;
+  border-style: solid;
+  border-color: white;
 }

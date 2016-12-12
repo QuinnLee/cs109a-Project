@@ -155,7 +155,7 @@ header {
   background-size: cover;
   -o-background-size: cover;
   background-position: center;
-  background-image: url('../img/fed-reserve.jpg');
+  background-image: url('../img/credit-cards.jpg');
   text-align: center;
   color: white;
 }
@@ -413,4 +413,20 @@ img::-moz-selection {
 }
 body {
   webkit-tap-highlight-color: #222222;
+}
+.express {
+  font-weight: 900;
+  text-decoration: none;
+  position: relative;
+}
+.express:after {
+  content: 'Processing';
+  color: transparent;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  border-width: 0 0 2px;
+  border-style: solid;
+  border-color: white;
 }
