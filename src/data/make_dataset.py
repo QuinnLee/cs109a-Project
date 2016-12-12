@@ -3,6 +3,10 @@ import os
 import pandas as pd
 import enchant as en
 
+# TODO
+# add encoding of (certain, not all) categorical vars
+# 
+
 def clean_data(dataset):
     '''Retaining all columns that are mostly non-null
 
@@ -49,30 +53,37 @@ def clean_data(dataset):
         df[feature_name] = df[feature_name].astype(float)
     
     # Converting strings to datetime objects
-    for i in ['last_pymnt_d', 'next_pymnt_d', 'last_credit_pull_d']:
+    for i in ['issue_d', 'last_pymnt_d', 'next_pymnt_d', 'last_credit_pull_d']:
         df[i] = pd.to_datetime(df[i])
 
 
-    return df[cols_to_keep]
+    return df[cols_to_keep].copy()
 
 
 def impute_missing(dataset):
     '''Imputing missing values
 
-    Floats are filled with zero.
+    Floats are filled with zero. Also, encodes categoricals.
 
     Args:
         dataset:    A pandas df.
 
     Returns self.
     '''
+    print "Now imputing missing values."
 
     dataset[['tot_cur_bal', \
             'tot_coll_amt', \
             'total_rev_hi_lim']].fillna(value = 0, inplace = True)
 
+    # Encode categoricals
+    cat_cols = dataset.select_dtypes(include=['object']).columns
 
-    return dataset
+    dummy = pd.get_dummies(dataset[cat_cols])
+    dataset.drop(cat_cols, axis = 1, inplace = True)
+    df = pd.concat([dataset, dummy], axis=1)
+
+    return df
 
 
 def misspelling_intensity(data_cell):
@@ -120,7 +131,9 @@ def spelling_mistakes(dataset):
     for s in ['emp_title', 'title']:
         dataset['{}_percent_misspelled'.format(s)] = dataset[s].apply(misspelling_intensity)
 
-    return dataset
+    dataset.drop(['emp_title', 'title'], inplace = True) 
+
+    return dataset.copy()
 
 
 if __name__ == '__main__':
