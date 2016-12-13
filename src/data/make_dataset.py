@@ -53,9 +53,13 @@ def clean_data(dataset):
         df[feature_name] = df[feature_name].astype(float)
     
     # Converting strings to datetime objects
-    for i in ['issue_d', 'last_pymnt_d', 'next_pymnt_d', 'last_credit_pull_d']:
+    dates = ['issue_d', 'last_pymnt_d', 'next_pymnt_d', \
+        'earliest_cr_line', 'last_credit_pull_d']
+
+    for i in dates:
         df[i] = pd.to_datetime(df[i])
 
+    df['grade'] = df['grade'].astype('category', ordered=True)
 
     return df[cols_to_keep].copy()
 
@@ -70,20 +74,29 @@ def impute_missing(dataset):
 
     Returns self.
     '''
-    print "Now imputing missing values."
-
-    dataset[['tot_cur_bal', \
-            'tot_coll_amt', \
-            'total_rev_hi_lim']].fillna(value = 0, inplace = True)
+    print "Now imputing missing values and encoding categories."
 
     # Encode categoricals
-    cat_cols = dataset.select_dtypes(include=['object']).columns
+    # We can't use all categorical columns - kernel dies
+    # Instead, let's use those specified in the baseline
+    cats = ['application_type', 'initial_list_status',
+        'purpose', 'pymnt_plan', 'verification_status',
+        'emp_length', 'term', 'loan_status', 'home_ownership']
 
-    dummy = pd.get_dummies(dataset[cat_cols])
-    dataset.drop(cat_cols, axis = 1, inplace = True)
-    df = pd.concat([dataset, dummy], axis=1)
+    dummy = pd.get_dummies(dataset[cats])
+    dataset.drop(cats, axis = 1, inplace = True)
+    df = pd.concat([dataset, dummy], axis = 1)
 
-    return df
+    df[['tot_cur_bal', \
+        'tot_coll_amt', \
+        'total_rev_hi_lim']].fillna(value = 0, inplace = True)
+
+    # Dropping IDs
+    df.drop(['member_id', 'id'], axis = 1, inplace = True)
+
+    df.dropna(axis = 1, inplace = True)
+
+    return df.copy()
 
 
 def misspelling_intensity(data_cell):
@@ -131,9 +144,39 @@ def spelling_mistakes(dataset):
     for s in ['emp_title', 'title']:
         dataset['{}_percent_misspelled'.format(s)] = dataset[s].apply(misspelling_intensity)
 
-    dataset.drop(['emp_title', 'title'], inplace = True) 
+    dataset.drop(['emp_title', 'title'], axis = 1, inplace = True) 
 
     return dataset.copy()
+
+def simple_dataset(dataset):
+    '''Removes columns that, in a fuller model, could be included later
+
+    Given the deadline of this project (Dec 14, 2016), we chose a simpler model to
+    begin with: eliminating the more computationally-intensive feature engineering
+    of strings and geo-codes. While conducting NLP and an economic analysis of states/
+    zip codes might provide richer predictions, it was decided that the marginal added
+    value of these columns (e.g. the average income of each state) could *not* 
+    outweigh the marginal computational cost of producing these features. 
+
+    As such, we simply eliminate those columns that won't be used.
+
+    Args:
+        dataset:    A pandas df. We assume that spelling_mistakes has not been run,
+                    but previous cleaning has.
+
+    Returns:
+        dataset.copy():         A clean pandas df.
+
+    '''
+
+    print "Skipping NLP/geo stuff, and removing cols."
+
+    cols_to_drop = ['zip_code', 'addr_state', 'url', 'sub_grade']
+
+    dataset.drop(cols_to_drop, axis = 1, inplace = True)
+
+    return dataset.copy()
+
 
 
 if __name__ == '__main__':
