@@ -324,8 +324,6 @@
               according to grade: with less risky borrowers having lower DTI ratios, on average,
               than more risky borrowers.
             </p>
-            <h3>IMG Placeholder 1</h3>
-            <h3>IMG Placeholder 2</h3>
           </div>
         </div>
       </div>
@@ -345,14 +343,106 @@
             <div class='text-center'>
               <i class="fa fa-4x fa-line-chart sr-icons"></i>
             </div>
-            <h3>Training, Tuning and Testing</h3>
+            <h3> Building a better model</h3>
             <p class="text-muted">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin vel velit dolor.
-              Morbi et efficitur leo. Morbi molestie arcu tellus, posuere euismod ipsum
-              tincidunt non. Donec tristique sed massa condimentum accumsan. Donec
+              Following the baseline model and some feature engineering,
+              we will now build a better predictive model.
+              This will follow a few new patterns:
+            </p>
+            <ol class="text-muted">
+              <li>
+                We will import data cleaning and feature engineering stuff from
+                external Python modules we've built (for standardization across our machines).
+              </li>
+              <li>
+                We will cross-validate across time: that is, the model will be
+                trained on earlier years and tested on later years.
+              </li>
+              <li>
+                Rather than looping through models (and perhaps working more
+                with Pipeline and GridSearch), we will focus on tuning the
+                parameters of the best-performing model from the baseline set.
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2">
+            <h3>Data: Preparing for the model</h3>
+            <p class="text-muted">
+              The first step we did was clean the data.  Columns with majority NULL values were dropped,
+              outliers were removed and we type-casted each column accordingly.
+            </p>
+            <script src="https://gist.github.com/QuinnLee/85125356336c29214fb66d49e534c51e.js"></script>
+            </br>
+            <p class="text-muted">
+              Second we imputed the missing data
+            </p>
+            <script src="https://gist.github.com/QuinnLee/10b2051b282660b3fadfc9c398228b33.js"></script>
+            <p class="text-muted">
+              Third we removed columns that, in a fuller model, could be included later
+              Given the deadline of this project (Dec 14, 2016), we chose a simpler model to
+              begin with: eliminating the more computationally-intensive feature engineering
+              of strings and geo-codes. While conducting NLP and an economic analysis of states/
+              zip codes might provide richer predictions, it was decided that the marginal added
+              value of these columns (e.g. the average income of each state) could *not*
+              outweigh the marginal computational cost of producing these features.
+              As such, we simply eliminate those columns that won't be used.
+            </p>
+            <script src="https://gist.github.com/QuinnLee/d1d7139a54bef5bd336a05279aa46850.js"></script>
+
+            <p class='text-muted'>
+              All of the code used to clean and prepare the data can be found
+              <a href='https://github.com/QuinnLee/cs109a-Project/blob/master/src/data/make_dataset.py'> here </a>.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2">
+            <h3> Train, test split: Splitting on 2015</h3>
+            <p class="text-muted">
+              We can use past years as predictors of future years. One challenge
+              with this approach is that we confound time-sensitive trends
+              (for example, global economic shocks to interest rates - such as the
+              financial crisis of 2008, or the growth of Lending Club to
+              broader and broader markets of debtors) with differences related to
+              time-insensitive factors (such as a debtor's riskiness).
             </p>
             <p class="text-muted">
-              Duis lobortis, elit eu pulvinar rutrum, felis
+              To account for this, we can bundle our training and test
+              sets into the following blocks:
+            </p>
+            <ul class="text-muted">
+              <li>
+                Before 2015: Training set
+              </li>
+              <li>
+                2015 to current: Test set
+              </li>
+            </ul>
+            <img src="img/portfolio/fullsize/seasonality_in_lending.png" class="img-responsive" alt="">
+            <p class="text-muted">
+              We'll use the pre-2015 data on interest rates (old) to fit
+              a model and cross-validate it. We'll then use the post-2015
+              data as a 'wild' dataset to test against.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2">
+            <h3> Fitting the Model</h3>
+            <p class="text-muted">
+              We fitted a random forest regressor using CV to tune the models.
+            </p>
+            <script src="https://gist.github.com/QuinnLee/e2d90b2af7d141c87333489eec64568d.js"></script>
+            <p class="text-muted">
+              Something blah blah about hte models
               neque tristique metus, non pretium ipsum augue sit amet sem. Fusce sit
               amet lectus augue. Mauris feugiat condimentum odio, at mollis nisl porta eu.
               Pellentesque venenatis purus id lorem elementum, scelerisque egestas erat
@@ -360,17 +450,6 @@
               erat imperdiet ligula, et tristique mi urna sit amet arcu. In hac
               habitasse platea dictumst. Cras ultrices enim in fringilla dictum.
             </p>
-            <p class="text-muted">
-              Duis lobortis, elit eu pulvinar rutrum, felis
-              neque tristique metus, non pretium ipsum augue sit amet sem. Fusce sit
-              amet lectus augue. Mauris feugiat condimentum odio, at mollis nisl porta eu.
-              Pellentesque venenatis purus id lorem elementum, scelerisque egestas erat
-              molestie. Fusce sodales, tortor ut hendrerit posuere, lacus
-              erat imperdiet ligula, et tristique mi urna sit amet arcu. In hac
-              habitasse platea dictumst. Cras ultrices enim in fringilla dictum.
-            </p>
-            <h3>IMG Placeholder 3</h3>
-            <h3>IMG Placeholder 4</h3>
           </div>
         </div>
       </div>
@@ -389,16 +468,13 @@
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2">
             <p class="text-muted">
-              Duis lobortis, elit eu pulvinar rutrum, felis
-              neque tristique metus, non pretium ipsum augue sit amet sem. Fusce sit
-              amet lectus augue. Mauris feugiat condimentum odio, at mollis nisl porta eu.
-              Pellentesque venenatis purus id lorem elementum, scelerisque egestas erat
-              molestie. Fusce sodales, tortor ut hendrerit posuere, lacus
-              erat imperdiet ligula, et tristique mi urna sit amet arcu. In hac
-              habitasse platea dictumst. Cras ultrices enim in fringilla dictum.
+              Something blah blah on the predictors
             </p>
             <h3>IMG Placeholder 6</h3>
             <h3>IMG Placeholder 7</h3>
+            <p class="text-muted">
+              Something on the accuracy
+            </p>
           </div>
         </div>
       </div>
