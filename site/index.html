@@ -220,13 +220,12 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2">
-            <div>
-              <a href="https://plot.ly/~QuinnLee/6/" target="_blank" title="Interest Rates by States in %" style="display: block; text-align: center;">
-                <img src="https://plot.ly/~QuinnLee/6.png" alt="Interest Rates by States in %" style="max-width: 100%;width: 600px;"  width="600" onerror="this.onerror=null;this.src='https://plot.ly/404.png';" />
-              </a>
-              <script data-plotly="QuinnLee:6"  src="https://plot.ly/embed.js" async></script>
-            </div>
-
+            <a href="https://plot.ly/~QuinnLee/6/" target="_blank" title="Interest Rates by States in %" style="display: block; text-align: center;">
+              <figure class='img-fig'>
+              <img src="https://plot.ly/~QuinnLee/6.png" alt="Interest Rates by States in %" style="max-width: 100%;width: 600px;"  width="600" onerror="this.onerror=null;this.src='https://plot.ly/404.png';" />
+              </figure>
+            </a>
+            <script data-plotly="QuinnLee:6"  src="https://plot.ly/embed.js" async></script>
           </div>
         </div>
       </div>
@@ -304,7 +303,8 @@
             </p>
 
             <p class="text-muted">
-              Considering information which is available in the Lending Club dataset: The majority of loans (59%) are taken out in order to consolidate debt.
+              Considering information which is available in the Lending Club dataset:
+              The majority of loans (59%) are taken out in order to consolidate debt.
               This becomes 82% if we include credit card payments. In other words,
               the majority of borrowers on Lending Club are borrowing in order to
               pay off other debt. This seems to imply that the Lending Club data is
@@ -344,7 +344,13 @@
             </div>
             <h3>A baseline, and beyond</h3>
             <p class="text-muted">
-            To begin our analysis, we created a set of baseline predictions. We conducted minimal data cleaning and examined a wide range of models (linear regression with Ridge and Lasso regularization terms, an AdaBoost model) - our best prediction attained an <i>R<sup>2</sup></i> of around 56%. (As a reminder: <i>R<sup>2</sup></i> measures the proportion of variance found in the data which the model can explain - the lower this measure is, the less your model 'explains' the variation we see in the real world.) An <i>R<sup>2</sup></i> of 56% is reasonable as a baseline. With it, we could proceed with some confidence that the dataset contained, at least, a significant <i>potential</i> to predict. 
+              To begin our analysis, we created a set of baseline predictions. We conducted minimal data
+              cleaning and examined a wide range of models (linear regression with Ridge and Lasso regularization terms, an
+              AdaBoost model) - our best prediction attained an <i>R<sup>2</sup></i> of around 56%.
+              (As a reminder: <i>R<sup>2</sup></i> measures the proportion of variance found in the data which the model
+              can explain - the lower this measure is, the less your model 'explains' the variation we see in the real
+              world.) An <i>R<sup>2</sup></i> of 56% is reasonable as a baseline. With it, we could proceed with some
+              confidence that the dataset contained, at least, a significant <i>potential</i> to predict.
             </p>
           </div>
         </div>
@@ -354,20 +360,25 @@
           <div class="col-lg-8 col-lg-offset-2">
             <h3>Data: Preparing for the model</h3>
             <p class="text-muted">
-              But how to improve from the baseline? Following the philosophy of GIGO - Garbage In, Garbage Out - we focused on feature engineering and surgical data cleaning.
+              But how to improve from the baseline? Following the philosophy of GIGO
+              - Garbage In, Garbage Out - we focused on feature engineering and surgical data cleaning.
             </p>
 
             <p class="text-muted">
-              We dealt with missing, non-numerical and categorical values. Furthermore, we moved our data cleaning out of Jupyter notebooks and into Python modules. This standardized our process, ensuring the raw data was processed in the same way across our machines and across our individual iterations.
+              We dealt with missing, non-numerical and categorical values. Furthermore, we moved our
+              data cleaning out of Jupyter notebooks and into Python modules. This standardized our process,
+              ensuring the raw data was processed in the same way across our machines and across our individual iterations.
             </p>
             <script src="https://gist.github.com/QuinnLee/85125356336c29214fb66d49e534c51e.js"></script>
             </br>
             <p class="text-muted">
-              Missing data was imputed following exploratory data analysis which found that, on the whole, imputing to zero was the most appropriate option. 
+              Missing data was imputed following exploratory data analysis which found that, on the whole,
+              imputing to zero was the most appropriate option.
             </p>
             <script src="https://gist.github.com/QuinnLee/10b2051b282660b3fadfc9c398228b33.js"></script>
             <p class="text-muted">
-              As a third step, we prepared two functions: one for a richer model, and one for a simpler improvement. Given the deadline of this project (Dec 14, 2016), we chose to submit the simpler model: eliminating the more computationally-intensive feature engineering
+              As a third step, we prepared two functions: one for a richer model, and one for a simpler improvement.
+              Given the deadline of this project (Dec 14, 2016), we chose to submit the simpler model: eliminating the more computationally-intensive feature engineering
               around string variables and geo-coding economic information. While conducting deeper text analysis and an economic analysis of states/
               zip codes might have provided richer predictions, it was decided that the marginal added
               value of these columns (e.g. the average income of each state) was unlikely to significantly
@@ -393,7 +404,9 @@
               (for example, global economic shocks to interest rates - such as the
               financial crisis of 2008, or the growth of Lending Club to
               broader markets of debtors) with differences related to
-              time-insensitive factors (such as a debtor's riskiness). To account for this, we cross-validated sets within time blocks, and ultimately found that pre-2015 was the best predictor for post-2015 (better, even, than pre-2015 on pre-2015).
+              time-insensitive factors (such as a debtor's riskiness). To account for this,
+              we cross-validated sets within time blocks, and ultimately found that pre-2015 was
+              the best predictor for post-2015 (better, even, than pre-2015 on pre-2015).
             </p>
             <img src="img/portfolio/fullsize/seasonality_in_lending.png" class="img-responsive" alt="">
             <p class="text-muted">
@@ -407,12 +420,93 @@
           <div class="col-lg-8 col-lg-offset-2">
             <h3> Fitting the Model</h3>
             <p class="text-muted">
-              The ultimate model we chose was a Random Forest Regressor. This was mostly due to the Random Forest behaving as a strong, non-parametric choice for large datasets. It allowed us to approach the problem without making underlying assumptions about the shape of the data. This was especially beneficial, given that we have only some domain knowledge, and would require more time to conduct a deeper literature review around peer-to-peer lending markets. The Random Forest allowed us to 'throw everything in' and see how a (relatively computationally intense) algorithm identifies boundaries.
+              The ultimate model we chose was a Random Forest Regressor. This was mostly due to the Random Forest behaving
+              as a strong, non-parametric choice for large datasets. It allowed us to approach the problem without making
+              underlying assumptions about the shape of the data. This was especially beneficial, given that
+              we have only some domain knowledge, and would require more time to conduct a deeper literature review around
+              peer-to-peer lending markets. The Random Forest allowed us to 'throw everything in' and see how
+              a (relatively computationally intense) algorithm identifies boundaries.
+            </p>
+            <p class="text-muted">
+              We limited the number of decision trees in our Random Forest; this was selected to
+              limit overfitting and restrict computational time. Likewise, we follow the
+              <a href="https://www.stat.berkeley.edu/~breiman/RandomForests/cc_manual.htm" target="_blank">advice</a>
+              of Breiman and Cutler in selecting the maximum number of features per tree to be the square
+              root of the total number of features. We did not tune further.
             </p>
             <script src="https://gist.github.com/QuinnLee/e2d90b2af7d141c87333489eec64568d.js"></script>
-            <p class="text-muted">
-              We limited the number of decision trees in our Random Forest; this was selected to limit overfitting and restrict computational time. Likewise, we follow the <a href="https://www.stat.berkeley.edu/~breiman/RandomForests/cc_manual.htm" target="_blank">advice</a> of Breiman and Cutler in selecting the maximum number of features per tree to be the square root of the total number of features. We did not tune further.
+            <p> NEW </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-7 col-lg-offset-3">
+            <figure>
+              <img src="img/portfolio/fullsize/ridge_tuning.png" class="img-responsive" alt="">
+              <figcaption class='text-center'>insert caption</figcaption>
+            <figure>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2">
+            <table class='table table-striped'>
+              <thead>
+                <tr>
+                  <td>
+                    <strong>Model</strong>
+                  </td>
+                  <td>
+                    <strong>CV Scores<strong>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Ridge Regression</td>
+                  <td>0.66</td>
+                </tr>
+                <tr>
+                  <td>Ada Boost Regression</td>
+                  <td>0.81</td>
+                </tr>
+                <tr>
+                  <td>Random Forest Regression</td>
+                  <td>0.79</td>
+                </tr>
+              <tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2">
+            <p>
+              insert comment about stuff
             </p>
+            <table class='table table-striped'>
+              <thead>
+                <tr>
+                  <td>
+                    <strong>Model</strong>
+                  </td>
+                  <td>
+                    <strong>Test Score <strong>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Ridge Regression</td>
+                  <td>0.67</td>
+                </tr>
+                <tr>
+                  <td>Ada Boost Regression</td>
+                  <td>0.28</td>
+                </tr>
+                <tr>
+                  <td>Random Forest Regression</td>
+                  <td>0.83</td>
+                </tr>
+              <tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -431,21 +525,76 @@
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2">
             <p class="text-muted">
-              Examining the relative feature importances (how often and how 'fundamental' each feature is to the decision trees' splits), we see that the most important features are: <code>total interest received</code>, the loan's term length (<code>term_60 months</code>), the monthly payment amounts (<code>installment</code>), and the amount of credit a borrower is using relative to their total amount (<code>revol_util</code>).
+            Examining the relative feature importances (how often and how 'fundamental' each feature
+            is to the decision trees' splits), we see that the most important features are:
+            <code>total interest received</code>, the loan's term length (<code>term_60 months</code>),
+            the monthly payment amounts (<code>installment</code>), and the amount of credit a borrower is using relative to their total amount (<code>revol_util</code>).
             </p>
-            <h3>IMG Placeholder 6 - Feature importances</h3>
-            <h3>IMG Placeholder 7</h3>
-            
+            <figure>
+              <img src="img/portfolio/fullsize/feature_importance.png" class="img-responsive" alt="">
+              <figcaption class='text-center'>insert caption</figcaption>
+            <figure>
+            <table class='table table-striped'>
+              <thead>
+                <tr>
+                  <td>
+                    <strong>Feature</strong>
+                  </td>
+                  <td>
+                    <strong>Importance<strong>
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>total_rec_int</td>
+                  <td>0.139426</td>
+                </tr>
+                <tr>
+                  <td>term_ 36 months</td>
+                  <td>0.130110</td>
+                </tr>
+                <tr>
+                  <td>installment</td>
+                  <td>0.073718</td>
+                </tr>
+                <tr>
+                  <td>revol_util</td>
+                  <td>0.059305</td>
+                </tr>
+                <tr>
+                  <td>total_rec_prncp</td>
+                  <td>0.053989</td>
+                </tr>
+              <tbody>
+            </table>
+
             <p class="text-muted">
-              Of course, to call these features 'predictive' would be to conflate correlation with causation. This is a core philsophical 'blind spot' of data science: it has a singular focus on correlation, and using increasingly large datasets to generate hyper-precise predictions based on comprehensive correlations. The problems arise when the predictive features (i.e. highly correlative terms) are no longer in the dataset: without an underlying theory to explain predictions (for example, an economic theory model of risk-taking and lending behavior), or without - at least - an empirical analysis of causal factors, we are left with little.
-            </p>
-  
-            <p class="text-muted">
-              In this case, we have found that our model would be able to 'predict' interest rates if given a blind dataset with the features listed above. However those features are, by definition, concurrent: at the same time that monthly payment plans are set, so is the interest rate. Does the monthly payment 'predict' the interest rate? Yes. But does it <em>cause</em> it? Clearly, no. Similarly for the other predictive features: they are indicative of what an interest rate would be, if it was the missing piece. But they do not predict the interest rate.
+              Of course, to call these features 'predictive' would be to conflate correlation with causation.
+              This is a core philsophical 'blind spot' of data science: it has a singular focus on correlation,
+              and using increasingly large datasets to generate hyper-precise predictions based on comprehensive correlations.
+              The problems arise when the predictive features (i.e. highly correlative terms) are no longer in the dataset:
+              without an underlying theory to explain predictions (for example, an economic theory model of risk-taking and
+              lending behavior), or without - at least - an empirical analysis of causal factors, we are left with little.
             </p>
 
             <p class="text-muted">
-              So how could we predict interest rates, in the sense of identifying causal factors? This is where the interesting, more computationally intensive feature engineering could help. Perhaps certain zip codes contain socio-economic information and, for example, poorer zip codes lead to higher interest rates. Perhaps frequent misspellings in the text fields of a Lending Club form lead peer-to-peer lenders to raise the 'minimum acceptable interest rate'. And perhaps, finally, we can dig into the economic theory of lending markets to find other hypotheses of causal factors to improve our predictions. 
+              In this case, we have found that our model would be able to 'predict' interest rates if given a blind dataset with the features
+              listed above. However those features are, by definition, concurrent: at the same time that monthly payment plans are set,
+              so is the interest rate. Does the monthly payment 'predict' the interest rate? Yes.
+              But does it <em>cause</em> it? Clearly, no. Similarly for the other predictive features:
+              they are indicative of what an interest rate would be, if it was the missing piece. But they do not predict the interest rate.
+            </p>
+
+            <p class="text-muted">
+              So how could we predict interest rates, in the sense of identifying causal factors?
+              This is where the interesting, more computationally intensive feature engineering could help.
+              Perhaps certain zip codes contain socio-economic information and, for example, poorer
+              zip codes lead to higher interest rates. Perhaps frequent misspellings in the text
+              fields of a Lending Club form lead peer-to-peer lenders to raise the
+              'minimum acceptable interest rate'. And perhaps, finally,
+              we can dig into the economic theory of lending markets to find other hypotheses
+              of causal factors to improve our predictions.
             </p>
 
           </div>
