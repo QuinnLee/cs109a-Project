@@ -19,8 +19,7 @@ This was our final project for the Fall 2016 class of CS109A - Introduction to D
 * *Other info:* `src/data` has the code we used to clean the data.  Other notebooks in the `notebooks` dir is our work we did along the way.
 
 
-**Depricated**
-How to install
+How to install -- Depricated
 --------------
 
 * Python - 2.7.10
