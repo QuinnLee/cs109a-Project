@@ -10,7 +10,7 @@ This was our final project for the Fall 2016 class of CS109A - Introduction to D
 
 * *Final project website:* [https://quinnlee.github.io/cs109a-Project/](https://quinnlee.github.io/cs109a-Project/)
 
-* *Download the data:* Get the data from [https://www.kaggle.com/wendykan/lending-club-loan-data](https://www.kaggle.com/wendykan/lending-club-loan-data) Move `loan.csv` to `/data/raw/lending-club-loan-data/`
+* *Download the data:* Get the data from [https://www.kaggle.com/wendykan/lending-club-loan-data](https://www.kaggle.com/wendykan/lending-club-loan-data). Move `loan.csv` to `/data/raw/lending-club-loan-data/`
 
 * *To replicate the main analysis:* Run `jupyter notebook` to launch notebooks. Use `notebooks/Final-project.ipynb` for the complete model.
 
