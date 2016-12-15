@@ -3,6 +3,15 @@ cs109a-project
 
 Predicting Loan Outcomes using Machine Learning
 
+Summary
+-------
+
+This was our final project for the Fall 2016 class of CS109A - Introduction to Data Science (Harvard). The framework below was based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>.
+
+*Final project website:* ADDLINK
+*To replicate the main analysis:* <a href="#">this notebook</a> includes the start-to-finish walk-through of the final model. You can find further information on the data cleaning Python modules below.
+
+
 How to install
 --------------
 
