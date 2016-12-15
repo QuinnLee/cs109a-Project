@@ -8,15 +8,13 @@ Summary
 
 This was our final project for the Fall 2016 class of CS109A - Introduction to Data Science (Harvard). The framework below was based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>.
 
-* *Final project website:* `https://quinnlee.github.io/cs109a-Project/`
+* *Final project website:* [https://quinnlee.github.io/cs109a-Project/](https://quinnlee.github.io/cs109a-Project/)
 
-* *Download the data:* Get the data from `https://www.kaggle.com/wendykan/lending-club-loan-data`
+* *Download the data:* Get the data from [https://www.kaggle.com/wendykan/lending-club-loan-data](https://www.kaggle.com/wendykan/lending-club-loan-data) Move `loan.csv` to `/data/raw/lending-club-loan-data/`
 
-* *Copy data:* move `loan.csv` to `/data/raw/lending-club-loan-data/`
+* *To replicate the main analysis:* Run `jupyter notebook` to launch notebooks. Use `notebooks/Final-project.ipynb` for the complete model.
 
-* *To replicate the main analysis:* run `ipython notebook` in the dir of this repo. The `notebooks/Final-project.ipynb` is the one too run.
-
-* *Other info:* `src/data` has the code we used to clean the data.  Other notebooks in the `notebooks` dir is our work we did along the way.
+* *Other info:* `src/data` has the code we used to clean the data.  Other notebooks in the `/notebooks/` can be used to follow exploratory data analysis, draft visualizations, and the baseline model.
 
 
 -----------------------------------------------------------------
