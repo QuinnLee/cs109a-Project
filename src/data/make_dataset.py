@@ -3,9 +3,6 @@ import os
 import pandas as pd
 import enchant as en
 
-# TODO
-# add encoding of (certain, not all) categorical vars
-# 
 
 def clean_data(dataset):
     '''Retaining all columns that are mostly non-null

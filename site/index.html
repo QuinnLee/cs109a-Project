@@ -110,14 +110,14 @@
               can accurately identify risk profiles of borrowers. Often, this takes the shape of credit
               reports and credit ratings: riskier borrowers have higher credit ratings, for example.
               This also translates into the interest rates which are offered in different markets or,
-              more specifically, to individual borrowers.
+              more specifically, to individual borrowers. Riskier borrowers might be expected to pay higher interest rates.
             </p>
             <p class="text-faded">
               While peer-to-peer (P2P) lending markets - like many online marketplaces -
               improve efficiencies by reducing transaction costs (lenders can browse hundreds of possible borrowers from the comfort of their home, etc.),
               they rely on offline models for risk prediction and pricing. These offline models
-              may not be appropriate (e.g. if market behaviors change in online markets versus
-              offline), or they may not be adequately reaping the benefits of online data
+              may not be appropriate (e.g. if market behaviors change in online versus
+              offline markets), or they may not be adequately reaping the benefits of online data
               (e.g. matching borrowers to social media and other public online behavior
               to enrich the risk profile).
             </p>
@@ -237,7 +237,7 @@
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
                   <div class="project-category text-faded">
-                    Loan Amount Histogram
+                    Loan Amounts
                   </div>
                   <div class="project-name">
                     Click to Enlarge
@@ -252,7 +252,7 @@
               <div class="portfolio-box-caption">
                 <div class="portfolio-box-caption-content">
                   <div class="project-category text-faded">
-                    Interest Rate Histogram
+                    Interest Rates
                   </div>
                   <div class="project-name">
                     Click to Enlarge
@@ -285,26 +285,26 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2">
+          <br>
             <p class="text-muted">
               As expected, the interest rate is positively correlated with loan grade:
               as loans get riskier, borrowers must pay more to lenders to take on that risk.
             </p>
             <h3>A strategy forward</h3>
             <p class="text-muted">
-              Interest rates are directly correlated with grade, but that does not
+              Interest rates are directly correlated with a borrower's grade, but that does not
               necessarily provide us with much useful information: both the interest
               rate and grade of a borrower are attempting to capture the same thing
-              (riskiness). So a better question to ask is: what could predict a borrower’s
+              (riskiness). So a better question to ask is: what could <em>predict</em> a borrower’s
               riskiness? Possible predictors include individual-level characteristics which are
               measurable but may not be available in this dataset (education, employment
-              status, social network, spending behavior), measurable and available in this dataset (debt-to-
-              income ratio, purpose of loan), and difficult to measure altogether
+              status, social network, spending behavior), measurable and available in this dataset (debt-to-income ratio, purpose of loan), and difficult to measure altogether
               (risk tolerance, likelihood of exogenous income or spending shocks).
             </p>
 
             <p class="text-muted">
               Considering information which is available in the Lending Club dataset:
-              The majority of loans (59%) are taken out in order to consolidate debt.
+              The majority of loans (59%) are used to consolidate debt.
               This becomes 82% if we include credit card payments. In other words,
               the majority of borrowers on Lending Club are borrowing in order to
               pay off other debt. This seems to imply that the Lending Club data is
@@ -314,7 +314,7 @@
               Lending Club when they are further along their debt journey.
             </p>
             <p class="text-muted">
-              The debt-to-income (DTI) ratio, considering all Lending Club borrowers,
+              The debt-to-income (DTI) ratio
               is 18% - meaning, the average LC borrower must spend around 18% of their
               monthly income on their other loans (excluding mortgages and the requested LC loan).
               In general, we can expect that borrowers with higher DTI ratio will
@@ -346,7 +346,7 @@
             <p class="text-muted">
               To begin our analysis, we created a set of baseline predictions. We conducted minimal data
               cleaning and examined a wide range of models (linear regression with Ridge and Lasso regularization terms, an
-              AdaBoost model) - our best prediction attained an <i>R<sup>2</sup></i> of around 56%.
+              AdaBoost model, random forests) - our best prediction attained an <i>R<sup>2</sup></i> of around 56%.
               (As a reminder: <i>R<sup>2</sup></i> measures the proportion of variance found in the data which the model
               can explain - the lower this measure is, the less your model 'explains' the variation we see in the real
               world.) An <i>R<sup>2</sup></i> of 56% is reasonable as a baseline. With it, we could proceed with some
@@ -367,20 +367,19 @@
             <p class="text-muted">
               We dealt with missing, non-numerical and categorical values. Furthermore, we moved our
               data cleaning out of Jupyter notebooks and into Python modules. This standardized our process,
-              ensuring the raw data was processed in the same way across our machines and across our individual iterations.
+              ensuring the raw data was processed in the same way across our machines and our work was consistently and version controlled. See below for an example method, <code>clean_data(dataset)</code>, from our <code>make_dataset.py</code> module. This method provided the base cleaning, removing outliers and so forth.
             </p>
             <script src="https://gist.github.com/QuinnLee/85125356336c29214fb66d49e534c51e.js"></script>
             </br>
             <p class="text-muted">
-              Missing data was imputed following exploratory data analysis which found that, on the whole,
+              Missing data was imputed following exploratory data analysis which identified that, on the whole,
               imputing to zero was the most appropriate option.
             </p>
             <script src="https://gist.github.com/QuinnLee/10b2051b282660b3fadfc9c398228b33.js"></script>
             <p class="text-muted">
-              As a third step, we prepared two functions: one for a richer model, and one for a simpler improvement.
+              As a third step, we prepared two functions: one for a richer model, and one for a simpler improvement of the baseline.
               Given the deadline of this project (Dec 14, 2016), we chose to submit the simpler model: eliminating the more computationally-intensive feature engineering
-              around string variables and geo-coding economic information. While conducting deeper text analysis and an economic analysis of states/
-              zip codes might have provided richer predictions, it was decided that the marginal added
+              around string variables and geo-coding economic information. While conducting deeper text analysis and an economic analysis of states/zip codes might have provided improved predictions, it was decided that the marginal added
               value of these columns (e.g. the average income of each state) was unlikely to significantly
               outweigh the marginal computational cost of producing these features.
               Given this, we ran the <code>simple_dataset(dataset)</code> method in our data cleaning Python modules (see below).
@@ -389,7 +388,7 @@
 
             <p class='text-muted'>
               The full code (including Jupyter notebooks for analysis and Python modules for data cleaning) can be found
-              <a href='https://github.com/QuinnLee/cs109a-Project/blob/master/src/data/make_dataset.py'> here </a>.
+              <a href='https://github.com/QuinnLee/cs109a-Project/'>here</a>.
             </p>
           </div>
         </div>
@@ -405,27 +404,81 @@
               financial crisis of 2008, or the growth of Lending Club to
               broader markets of debtors) with differences related to
               time-insensitive factors (such as a debtor's riskiness). To account for this,
-              we cross-validated sets within time blocks, and ultimately found that pre-2015 was
-              the best predictor for post-2015 (better, even, than pre-2015 on pre-2015).
+              we cross-validated sets within time blocks, and used each previous year to predict the following year. In general, this did not yield very good results. 
             </p>
-            <img src="img/portfolio/fullsize/seasonality_in_lending.png" class="img-responsive" alt="">
+            <div class='text-center'>
+              <table class='table table-striped'>
+                <thead>
+                  <tr>
+                    <td>
+                      <strong>Predicting from</strong>
+                    </td>
+                    <td>
+                      <strong>Predicting on</strong>
+                    </td>
+                    <td>
+                      <strong><i>R<sup>2</sup></i></strong>
+                    </td>
+                  </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td>2008</td>
+                  <td>2009</td>
+                  <td>0.16</td>
+                </tr>
+                <tr>
+                  <td>2009</td>
+                  <td>2010</td>
+                  <td>0.29</td>
+                </tr>
+                <tr>
+                  <td>2010</td>
+                  <td>2011</td>
+                  <td>0.25</td>
+                </tr>
+                <tr>
+                  <td>2011</td>
+                  <td>2012</td>
+                  <td>0.51</td>
+                </tr>
+                <tr>
+                  <td>2012</td>
+                  <td>2013</td>
+                  <td>0.34</td>
+                </tr>
+                <tr>
+                  <td>2013</td>
+                  <td>2014</td>
+                  <td>0.43</td>
+                </tr>
+                <tr>
+                  <td>2014</td>
+                  <td>2015</td>
+                  <td>0.36</td>
+                </tr>
+                <tbody>
+              </table>
+            </div>
+
             <p class="text-muted">
-              We fit our model on the pre-2015 data, and used it to predict the post-2015 interest rates.
+            As we can see, restricting ourselves to a year-specific model limits our predictive power. Following this, we opted to use the entire dataset and run a standard training/test split on it instead. This assumes that, over the course of Lending Club's history (which includes, for example, the financial crisis of 2008), we have sufficient sample size to 'smooth out' time-specific shocks.
             </p>
+
           </div>
         </div>
       </div>
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2">
-            <h3> Fitting the Model</h3>
+            <h3>Fitting the model</h3>
             <p class="text-muted">
               The ultimate model we chose was a Random Forest Regressor. This was mostly due to the Random Forest behaving
               as a strong, non-parametric choice for large datasets. It allowed us to approach the problem without making
-              underlying assumptions about the shape of the data. This was especially beneficial, given that
-              we have only some domain knowledge, and would require more time to conduct a deeper literature review around
+              underlying assumptions about the shape of the data. This was especially beneficial given that, while we have some domain knowledge,
+               we would require more time to conduct a deeper literature review around
               peer-to-peer lending markets. The Random Forest allowed us to 'throw everything in' and see how
-              a (relatively computationally intense) algorithm identifies boundaries.
+              a (relatively computationally intense) algorithm identifies boundaries. To compare, we also looked at the Ridge regression and AdaBoost algorithm from the baseline set. In this way, we could likewise evaluate the improvement generated from proper data cleaning.
             </p>
             <p class="text-muted">
               We limited the number of decision trees in our Random Forest; this was selected to
@@ -435,13 +488,12 @@
               root of the total number of features. We did not tune further.
             </p>
             <script src="https://gist.github.com/QuinnLee/e2d90b2af7d141c87333489eec64568d.js"></script>
-            <p> NEW </p>
           </div>
         </div>
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2">
-            <p>
-              insert comment about stuff
+            <p class='text-muted'>
+              In general, the Random Forest - coupled with the 'freshly cleaned' data - outperformed both the AdaBoost regression (by a significant amount), as well as the regularized linear regression.
             </p>
             <table class='table table-striped'>
               <thead>
@@ -450,7 +502,7 @@
                     <strong>Model</strong>
                   </td>
                   <td>
-                    <strong>Test Score <strong>
+                    <strong>Cross-validated <i>R<sup>2</sup></i><strong>
                   </td>
                 </tr>
               </thead>
@@ -488,7 +540,7 @@
           <div class="col-lg-8 col-lg-offset-2">
             <p class="text-muted">
             Examining the relative feature importances (how often and how 'fundamental' each feature
-            is to the decision trees' splits), we see that the most important features are:
+            is to each individual decision tree's splits), we see that the most important features in the Random Forest were:
             <code>total interest received</code>, the loan's term length (<code>term_60 months</code>),
             the monthly payment amounts (<code>installment</code>), and the amount of credit a borrower is using relative to their total amount (<code>revol_util</code>).
             </p>
@@ -566,7 +618,7 @@
         <div class="row">
           <div class="col-lg-8 col-lg-offset-2 text-center">
             <p class="text-muted">
-              Created By
+              Comments? Questions? Let us know!
             </p>
             <p class="text-muted">
               <a href="https://twitter.com/angelaambroz">Angela Ambroz</a>
