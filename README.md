@@ -14,8 +14,9 @@ This was our final project for the Fall 2016 class of CS109A - Introduction to D
 
 * *Copy data:* move `loan.csv` to `/data/raw/lending-club-loan-data/`
 
-* *To replicate the main analysis:* run `ipython notebook` in the dir of this repo.
+* *To replicate the main analysis:* run `ipython notebook` in the dir of this repo. The `notebooks/Final-project.ipynb` is the one too run.
 
+* *Other info:* `src/data` has the code we used to clean the data.  Other notebooks in the `notebooks` dir is our work we did along the way.
 
 
 **Depricated**
